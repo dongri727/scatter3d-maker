@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'page/home_page.dart';
+import 'widget/snackbar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(),
+      scaffoldMessengerKey: SuccessSnackBar.messengerKey,
     );
   }
 }
