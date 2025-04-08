@@ -3,6 +3,7 @@ import 'package:scatter3d_maker/widget/snackbar.dart';
 import 'second_page.dart';
 import '../widget/axis_config_widget.dart';
 import '../widget/text_field.dart';
+import '../application/import_csv.dart';
 import '../constants/app_colors.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -28,16 +29,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    void importCSV() => (
-      SuccessSnackBar.show('CSVインポートを開始します。')
-
-    );
+    void importCSV() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ImportCsv()),
+      );
+    }
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Upload your csv data"),
+        // actions: [
+        //   IconButton(
+        //     onPressed: onPressed, 
+        //     icon: const Icon(Icons.question_mark))
+        // ],
       ),
       body: Center(
         child: Form(
