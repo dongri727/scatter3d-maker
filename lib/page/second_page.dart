@@ -5,7 +5,9 @@ import 'package:flutter_echarts/flutter_echarts.dart';
 import '../gl_script.dart';
 
 class SecondPage extends StatefulWidget {
-  const SecondPage({super.key});
+  final String scatterTitle;
+
+  const SecondPage(this.scatterTitle, {super.key});
 
   @override
   SecondPageState createState() => SecondPageState();
@@ -35,17 +37,20 @@ class SecondPageState extends State<SecondPage> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        title: const Text('Scores'),
+        title: const Text("Scatter 3D"),
       ),
       body: Center(
-        child: SizedBox(
-          width: 800,
-          height: 800,
-          child: scores == null
-              ? const CircularProgressIndicator()
-              : Echarts(
-            extensions: const [glScript],
-            option: '''
+        child: Column(
+          children: [
+            Text(widget.scatterTitle),
+            SizedBox(
+              width: 800,
+              height: 800,
+              child: scores == null
+                  ? const CircularProgressIndicator()
+                  : Echarts(
+                extensions: const [glScript],
+                option: '''
     (function() {
       return {
         tooltip: {},
@@ -82,23 +87,25 @@ class SecondPageState extends State<SecondPage> {
             type: 'scatter3D',
             symbolSize: 5,
             data: ${json.encode(scores)},
-            label: {
-              show: true,
-              textStyle: {
-                fontSize: 12,
-                borderWidth: 1
-              },
-              formatter: function(param) {
-                return param.data.name;
-              }
-            },
-            itemStyle: {opacity: 0.8}    
-          },   
-        ]
-      };
-          })()
-          ''',
-          ),
+                label: {
+                  show: true,
+                  textStyle: {
+                    fontSize: 12,
+                    borderWidth: 1
+                  },
+                  formatter: function(param) {
+                    return param.data.name;
+                  }
+                },
+                itemStyle: {opacity: 0.8}    
+              },   
+            ]
+                  };
+              })()
+              ''',
+              ),
+            ),
+          ],
         ),
       ),
     );

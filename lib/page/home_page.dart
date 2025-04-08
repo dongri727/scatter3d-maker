@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SecondPage())
+            MaterialPageRoute(builder: (context) => SecondPage(scatterTitle))
           );
         },
         child: const Icon(Icons.last_page),
