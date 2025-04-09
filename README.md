@@ -1,6 +1,6 @@
 # scatter3d_maker
 
-easy visualization app
+easy data-visualization app
 
 ## Getting Started
 
