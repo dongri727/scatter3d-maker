@@ -6,6 +6,33 @@ import '../widget/text_field.dart';
 import '../application/import_csv.dart';
 import '../constants/app_colors.dart';
 
+
+class AxisData {
+  final String legend;
+  final double min;
+  final double max;
+
+  AxisData({
+    required this.legend,
+    required this.min,
+    required this.max,
+  });
+}
+
+class ScatterPlotData {
+  final String title;
+  final AxisData xAxis;
+  final AxisData yAxis;
+  final AxisData zAxis;
+
+  ScatterPlotData({
+    required this.title,
+    required this.xAxis,
+    required this.yAxis,
+    required this.zAxis,
+  });
+}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -126,9 +153,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
+
+          final scatterData = ScatterPlotData(
+            title: scatterTitle,
+            xAxis: AxisData(legend: xLegend, min: xMin, max: xMax),
+            yAxis: AxisData(legend: yLegend, min: yMin, max: yMax),
+            zAxis: AxisData(legend: zLegend, min: zMin, max: zMax),
+          );
+          print(scatterData);
+
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SecondPage(scatterTitle))
+            MaterialPageRoute(builder: (context) => SecondPage(scatterData))
           );
         },
         child: const Icon(Icons.last_page),
