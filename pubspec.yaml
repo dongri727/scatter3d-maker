@@ -68,6 +68,8 @@ flutter:
   assets:
     - assets/json/jhigh.json
     - assets/images/scatter3d-maker.png
+    - assets/images/img_scatter.png
+    - assets/images/img_project_config.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
