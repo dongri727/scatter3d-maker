@@ -106,7 +106,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (model.xMax > model.xMin &&
                                 model.yMax > model.yMin &&
                                 model.zMax > model.zMin) {
-                              importCSV();
                             } else {
                               FailureSnackBar.show(
                                   '最大値最小値の設定に不備があります。設定内容をご確認ください。');
