@@ -4,6 +4,7 @@ import 'package:scatter3d_maker/widget/snackbar.dart';
 import 'second_page.dart';
 import '../widget/axis_config_widget.dart';
 import '../widget/text_field.dart';
+import '../widget/hint_page.dart';
 import '../application/import_csv.dart';
 import '../constants/app_colors.dart';
 import 'home_page_model.dart';
@@ -27,20 +28,24 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context) {
           final model = Provider.of<HomePageModel>(context);
 
-          // CSVインポート用のナビゲーション
-          void importCSV() {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ImportCsv()),
-            );
-          }
 
-          return Scaffold(
-            backgroundColor: AppColors.backgroundColor,
-            appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-              title: const Text("Upload your csv data"),
-            ),
+    return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text("Upload your csv data"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HintPage(), fullscreenDialog: true),
+              );
+            }, 
+            icon: const Icon(Icons.question_mark))
+        ],
+      ),
+      
             body: Center(
               child: Form(
                 key: _formKey,

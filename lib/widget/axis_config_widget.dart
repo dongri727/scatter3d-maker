@@ -27,10 +27,10 @@ class AxisConfigWidget extends StatefulWidget{
   }
 
   @override
-  State<AxisConfigWidget> createState() => _AxisCongigState();
+  State<AxisConfigWidget> createState() => _AxisConfigState();
 }
 
-class _AxisCongigState extends State<AxisConfigWidget>{
+class _AxisConfigState extends State<AxisConfigWidget>{
   @override
   Widget build(BuildContext content){
     return Container(
