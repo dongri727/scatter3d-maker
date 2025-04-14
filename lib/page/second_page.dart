@@ -5,9 +5,9 @@ import 'package:flutter_echarts/flutter_echarts.dart';
 import '../gl_script.dart';
 
 class SecondPage extends StatefulWidget {
-  final String scatterTitle;
+  final dynamic scatterData;
 
-  const SecondPage(this.scatterTitle, {super.key});
+  const SecondPage(this.scatterData, {super.key});
 
   @override
   SecondPageState createState() => SecondPageState();
@@ -42,7 +42,7 @@ class SecondPageState extends State<SecondPage> {
       body: Center(
         child: Column(
           children: [
-            Text(widget.scatterTitle),
+            Text(widget.scatterData.title),
             SizedBox(
               width: 800,
               height: 800,
@@ -63,24 +63,21 @@ class SecondPageState extends State<SecondPage> {
         },
         xAxis3D: {
           type: 'value',
-          min: 0,
-          max: 100,
-          splitLine: {show: false},
-          name: '数学',
+          min: ${widget.scatterData.xAxis.min},
+          max: ${widget.scatterData.xAxis.max},
+          name: '${widget.scatterData.xAxis.legend}',
         },
         yAxis3D: {
           type: 'value',
-          min: 0,
-          max: 100,
-          splitLine: {show: false},                  
-          name: '英語',
+          min: ${widget.scatterData.yAxis.min},
+          max: ${widget.scatterData.yAxis.max},
+          name: '${widget.scatterData.yAxis.legend}',
         },
         zAxis3D: {
           type: 'value',
-          min: 0,
-          max: 100,
-          splitLine: {show: false},
-          name: '国語',                               
+          min: ${widget.scatterData.zAxis.min},
+          max: ${widget.scatterData.zAxis.max},
+          name: '${widget.scatterData.zAxis.legend}',                         
         },
         series: [
           {
