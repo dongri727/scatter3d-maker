@@ -5,7 +5,6 @@ import 'second_page.dart';
 import '../widget/axis_config_widget.dart';
 import '../widget/text_field.dart';
 import '../widget/hint_page.dart';
-import '../application/import_csv.dart';
 import '../constants/app_colors.dart';
 import 'home_page_model.dart';
 
