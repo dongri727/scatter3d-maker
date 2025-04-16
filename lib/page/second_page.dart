@@ -6,8 +6,10 @@ import '../gl_script.dart';
 
 class SecondPage extends StatefulWidget {
   final dynamic scatterData;
+  final dynamic parsedData;
 
-  const SecondPage(this.scatterData, {super.key});
+
+  const SecondPage(this.scatterData, this.parsedData, {super.key});
 
   @override
   SecondPageState createState() => SecondPageState();
@@ -25,10 +27,18 @@ class SecondPageState extends State<SecondPage> {
   }
 
   Future<void> _loadData() async {
-    final String jsonString = await rootBundle.loadString('assets/json/jhigh.json');
-    final List<dynamic> jsonData = json.decode(jsonString);
+    // widget.parsedData は List<Map<String,dynamic>> として渡されている前提
+    final List<dynamic> transformed = (widget.parsedData as List<Map<String, dynamic>>)
+        .map((item) => {
+      'value': [item['x'], item['y'], item['z']],
+      'name': item['id'],
+      'itemStyle': {'color': item['color']},
+      'symbolSize': item['size'], // sizeでドットの大きさを個別指定
+    })
+        .toList();
+
     setState(() {
-      scores = jsonData;
+      scores = transformed;
     });
   }
 
