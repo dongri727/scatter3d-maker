@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scatter3d_maker/widget/snackbar.dart';
@@ -18,6 +22,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
   bool _showValidation = false;
+  List<Map<String, dynamic>>? _parsedData;
+  List<Map<String, dynamic>>? scatterData;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +32,42 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Builder(
         builder: (context) {
           final model = Provider.of<HomePageModel>(context);
+          Future<void> importCSV() async {
+            // Pick a CSV file using file_picker
+            FilePickerResult? result = await FilePicker.platform.pickFiles(
+              type: FileType.custom,
+              allowedExtensions: ['csv'],
+            );
+
+            if (result != null && result.files.single.path != null) {
+              final File file = File(result.files.single.path!);
+              final String csvString = await file.readAsString();
+
+              // Parse CSV data using csv package
+              List<List<dynamic>> rows =
+              const CsvToListConverter().convert(csvString);
+
+              // Assume the first row contains the header and skip it
+              List<Map<String, dynamic>> parsedData = [];
+              for (var i = 1; i < rows.length; i++) {
+                var row = rows[i];
+                parsedData.add({
+                  'id': row[0].toString(),
+                  'x': (row[1] as num).toDouble(),
+                  'y': (row[2] as num).toDouble(),
+                  'z': (row[3] as num).toDouble(),
+                  'color': row[4].toString(),
+                  'size': row[5] is int ? row[5] : (row[5] as num).toInt(),
+                });
+              }
+              setState(() {
+                _parsedData = parsedData;
+              });
+            } else {
+              // Handle cancellation or error in file picking
+              FailureSnackBar.show('CSVファイルの選択がキャンセルされました。');
+            }
+          }
 
 
     return Scaffold(
@@ -44,7 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: const Icon(Icons.question_mark))
         ],
       ),
-      
             body: Center(
               child: Form(
                 key: _formKey,
@@ -105,6 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (model.xMax > model.xMin &&
                                 model.yMax > model.yMin &&
                                 model.zMax > model.zMin) {
+                                importCSV();
                             } else {
                               FailureSnackBar.show(
                                   '最大値最小値の設定に不備があります。設定内容をご確認ください。');
@@ -127,12 +169,17 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 // Providerから集約済みのscatterDataを取得してSecondPageへ
                 final scatterData = model.scatterPlotData;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SecondPage(scatterData)),
-                );
-              },
+                if (_parsedData != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SecondPage(scatterData, _parsedData!),
+                    ),
+                  );
+                } else {
+                  FailureSnackBar.show('CSVデータが読み込まれていません。');
+                }
+          },
               child: const Icon(Icons.last_page),
             ),
           );
