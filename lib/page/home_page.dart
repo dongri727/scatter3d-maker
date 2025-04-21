@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scatter3d_maker/widget/snackbar.dart';
+import 'hint/tab_top.dart';
 import 'second_page.dart';
 import '../widget/axis_config_widget.dart';
 import '../widget/text_field.dart';
@@ -45,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
               // Parse CSV data using csv package
               List<List<dynamic>> rows =
-              const CsvToListConverter().convert(csvString);
+                  const CsvToListConverter().convert(csvString);
 
               // Assume the first row contains the header and skip it
               List<Map<String, dynamic>> parsedData = [];
@@ -69,23 +70,24 @@ class _MyHomePageState extends State<MyHomePage> {
             }
           }
 
-
-    return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Upload your csv data"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HintPage(), fullscreenDialog: true),
-              );
-            }, 
-            icon: const Icon(Icons.question_mark))
-        ],
-      ),
+          return Scaffold(
+            backgroundColor: AppColors.backgroundColor,
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              title: const Text("Upload your csv data"),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HintTab(),
+                            fullscreenDialog: true),
+                      );
+                    },
+                    icon: const Icon(Icons.question_mark))
+              ],
+            ),
             body: Center(
               child: Form(
                 key: _formKey,
@@ -146,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (model.xMax > model.xMin &&
                                 model.yMax > model.yMin &&
                                 model.zMax > model.zMin) {
-                                importCSV();
+                              importCSV();
                             } else {
                               FailureSnackBar.show(
                                   '最大値最小値の設定に不備があります。設定内容をご確認ください。');
@@ -173,13 +175,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SecondPage(scatterData, _parsedData!),
+                      builder: (context) =>
+                          SecondPage(scatterData, _parsedData!),
                     ),
                   );
                 } else {
                   FailureSnackBar.show('CSVデータが読み込まれていません。');
                 }
-          },
+              },
               child: const Icon(Icons.last_page),
             ),
           );

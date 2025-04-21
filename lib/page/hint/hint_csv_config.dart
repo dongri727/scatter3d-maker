@@ -7,23 +7,33 @@ class HintCsvConfig extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text(Strings.hintScatterImages),      
-      ),
-      body: Column(
-        children: <Widget>[
-          const Text(
-              "ここにCSV設定を入力",
-               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+        backgroundColor: AppColors.backgroundColor,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 50, 0, 20),
+                child: Image.asset(
+                  height: 400,
+                    "assets/images/sample.jpg",
                 ),
-            ),
-        ],
+              ),
+              const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(
+                  "ExcelやNumbersでつくったデータをCSVで書き出します。\n\n"
+                    "idは各データの表示名、番号でも名前でも。\n\n"
+                        "x,y,zはデータの座標、\n整数でも小数でも、プラスでもマイナスでも。\n\n"
+                        "Colorはシンプルな色名を英語で、\n単色も可。\n\n"
+                        "sizeは10、20, 30のいずれか。統一してもよい。\n"
+                        "サンプル画像の一番小さいドットが10です。",
+                      ),
+                  ),
+            ],
+          ),
+        ),
       ),
     );
   }
