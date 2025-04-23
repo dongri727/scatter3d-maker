@@ -54,8 +54,8 @@ class SecondPageState extends State<SecondPage> {
           children: [
             Text(widget.scatterData.title),
             SizedBox(
-              width: 800,
-              height: 800,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width,
               child: scores == null
                   ? const CircularProgressIndicator()
                   : Echarts(

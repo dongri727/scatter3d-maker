@@ -1,0 +1,110 @@
+class ProjectModel {
+  int? key;
+  String projectName;
+  String xLegend;
+  double xMax;
+  double xMin;
+  String yLegend;
+  double yMax;
+  double yMin;
+  String zLegend;
+  double zMax;
+  double zMin;
+  String csvFilePath;
+  String jsonData;
+  String scatterImagePath;
+  final DateTime createdAt;
+
+  ProjectModel({
+    this.key,
+    required this.projectName,
+    required this.xLegend,
+    required this.xMax,
+    required this.xMin,
+    required this.yLegend,
+    required this.yMax,
+    required this.yMin,
+    required this.zLegend,
+    required this.zMax,
+    required this.zMin,
+    required this.csvFilePath,
+    required this.jsonData,
+    required this.scatterImagePath,
+    required this.createdAt,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'projectName': projectName,
+      'xLegend': xLegend,
+      'xMax': xMax,
+      'xMin': xMin,
+      'yLegend': yLegend,
+      'yMax': yMax,
+      'yMin': yMin,
+      'zLegend': zLegend,
+      'zMax': zMax,
+      'zMin': zMin,
+      'csvFilePath': csvFilePath,
+      'jsonData': jsonData,
+      'scatterImagePath': scatterImagePath,
+      'createdAt': createdAt.toIso8601String(),
+    };
+  }
+
+  ProjectModel copyWith({
+    int? key,
+    String? projectName,
+    String? xLegend,
+    double? xMax,
+    double? xMin,
+    String? yLegend,
+    double? yMax,
+    double? yMin,
+    String? zLegend,
+    double? zMax,
+    double? zMin,
+    String? csvFilePath,
+    String? jsonData,
+    String? scatterImagePath,
+    DateTime? createdAt,
+  }) {
+    return ProjectModel(
+      key: key ?? this.key,
+      projectName: projectName ?? this.projectName,
+      xLegend: xLegend ?? this.xLegend,
+      xMax: xMax ?? this.xMax,
+      xMin: xMin ?? this.xMin,
+      yLegend: yLegend ?? this.yLegend,
+      yMax: yMax ?? this.yMax,
+      yMin: yMin ?? this.yMin,
+      zLegend: zLegend ?? this.zLegend,
+      zMax: zMax ?? this.zMax,
+      zMin: zMin ?? this.zMin,
+      csvFilePath: csvFilePath ?? this.csvFilePath,
+      jsonData: jsonData ?? this.jsonData,
+      scatterImagePath: scatterImagePath ?? this.scatterImagePath,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  static ProjectModel fromMap(int key, Map<String, dynamic> map) {
+    return ProjectModel(
+      key: key,
+      projectName: map['projectName'] as String,
+      xLegend: map['xLegend'] as String,
+      xMax: map['xMax'] as double,
+      xMin: map['xMin'] as double,
+      yLegend: map['yLegend'] as String,
+      yMax: map['yMax'] as double,
+      yMin: map['yMin'] as double,
+      zLegend: map['zLegend'] as String,
+      zMax: map['zMax'] as double,
+      zMin: map['zMin'] as double,
+      csvFilePath: map['csvFilePath'] as String,
+      jsonData: map['jsonData'] as String,
+      scatterImagePath: map['scatterImagePath'] as String,
+      createdAt: DateTime.parse(map['createdAt'] as String),
+    );
+  }
+}

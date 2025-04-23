@@ -11,6 +11,7 @@ class MyTextField extends StatefulWidget {
     this.obscureText = false,
     this.maxLines = 1,
     this.validator,
+    this.controller,
   });
 
   final String label;
@@ -21,24 +22,45 @@ class MyTextField extends StatefulWidget {
   final int maxLines;
   final Function(String) onChanged;
   final String? Function(String?)? validator;
-
+  final TextEditingController? controller;
   @override
   State<MyTextField> createState() => _MyTextFieldState();
 }
 
 class _MyTextFieldState extends State<MyTextField> {
   late TextEditingController _controller;
+  final FocusNode _focusNode = FocusNode();
+  late TextSelection _selection;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialValue);
+    _selection = TextSelection.fromPosition(TextPosition(offset: widget.initialValue.length));
+    _controller.selection = _selection;
+    //fetchAndUpdate();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
+  }
+
+  Future<void> fetchAndUpdate() async {
+    if (!mounted) return;
+    if (!_focusNode.hasFocus) {
+      setState(() {
+        _controller.text = widget.initialValue;
+      });
+    }else{
+      final oldSelection = _controller.selection;
+      _controller.value = TextEditingValue(
+        text: widget.initialValue,
+        selection: oldSelection,
+      );
+    }
   }
 
   @override
@@ -47,6 +69,7 @@ class _MyTextFieldState extends State<MyTextField> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
         controller: _controller,
+        focusNode: _focusNode,
         decoration: InputDecoration(
           labelText: widget.label,
           hintText: widget.hintText,
@@ -60,7 +83,11 @@ class _MyTextFieldState extends State<MyTextField> {
         keyboardType: widget.keyboardType,
         obscureText: widget.obscureText,
         maxLines: widget.maxLines,
-        onChanged: widget.onChanged,
+        onChanged: (value){ 
+          // _selection = TextSelection.fromPosition(TextPosition(offset: value.length));
+          // _controller.selection = _selection;  
+          widget.onChanged(value);
+        },
         validator: widget.validator,
         autovalidateMode: AutovalidateMode.onUserInteraction,
       ),
