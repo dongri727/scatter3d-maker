@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'page/top_page.dart';
+import 'page/second_page.dart';
 import 'widget/snackbar.dart';
+import 'database/sembast_database.dart';
 import 'package:provider/provider.dart';
 import 'providers/project_provider.dart';
-import 'database/sembast_database.dart';
-import 'utils/log_control.dart';
-import 'package:logging/logging.dart';
-LogControl logControl = LogControl.getInstance();
-Logger log = Logger('main');
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // データベースの初期化を待つ
-  final database = await SembastDatabase().database;
-  logControl.init();
+  await SembastDatabase().database;
+  
   runApp(
     MultiProvider(
       providers: [
@@ -36,7 +31,14 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const TopPage(),
+      initialRoute: '/topPage',
+      routes: {
+        '/topPage': (context) => const TopPage(),
+        '/secondPage': (context) => const SecondPage(
+          parsedData: [],
+          scatterData: [],
+        ),
+      },
       scaffoldMessengerKey: SuccessSnackBar.messengerKey,
     );
   }

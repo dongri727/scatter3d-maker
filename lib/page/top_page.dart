@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import '../page/setting_page.dart';
 import '../page/home_page.dart';
-import '../widget/dialog_text.dart';
+import '../page/preview_page.dart';
 import 'package:provider/provider.dart';
-import 'package:scatter3d_maker/models/project_model.dart';
 import 'package:scatter3d_maker/providers/project_provider.dart';
-import 'package:logging/logging.dart';
-import 'package:scatter3d_maker/utils/log_control.dart';
-
-Logger log = Logger('TopPage.class');
 
 class TopPage extends StatefulWidget { 
   const TopPage({super.key});
@@ -19,54 +14,19 @@ class TopPage extends StatefulWidget {
 }
 
 class _TopPageState extends State<TopPage> { 
+  late ProjectProvider _projectProvider;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ProjectProvider>(context, listen: false).loadProjects();
+      _projectProvider.loadProjects();
     });
-    log.info('TopPage initState');
-  }
-
-  Future<void> _addNewProject() async {
-    final provider = Provider.of<ProjectProvider>(context, listen: false);
-    final newProject = ProjectModel(
-
-      projectName: "",
-      xLegend: "",
-      xMax: 0.0,
-      xMin: 0.0,
-      yLegend: "",
-      yMax: 0.0,
-      yMin: 0.0,
-      zLegend: "",
-      zMax: 0.0,
-      zMin: 0.0,
-      csvFilePath: "",
-      jsonData: "",
-      scatterImagePath: "",
-      createdAt: DateTime.now(),
-    );
-
-    final result = await showDialog<String>(
-      context: context,
-      builder: (context) => const DialogText(
-        title: "新規プロジェクト",
-        text: "",
-      ),
-    );
-
-    if (result != null && result.isNotEmpty) {
-      newProject.projectName = result;
-      final key = await provider.addProject(newProject);
-      newProject.key = key;
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ProjectProvider>(context);
-
+    final _provider = Provider.of<ProjectProvider>(context);
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
@@ -91,19 +51,19 @@ class _TopPageState extends State<TopPage> {
           ),
         ],
       ),  
-      body: provider.projects.isEmpty
+      body: _provider.projects.isEmpty
           ? const Center(child: Text('データがありません'))
           : ListView.builder(
-              itemCount: provider.projects.length,
+              itemCount: _provider.projects.length,
               itemBuilder: (context, index) {
-                final project = provider.projects[index];
+                final project = _provider.projects[index];
                 return ListTile(
                   title: Text(project.projectName),
                   subtitle: Text('X: ${project.xMin} ~ ${project.xMax} | Y: ${project.yMin} ~ ${project.yMax} | Z: ${project.zMin} ~ ${project.zMax}'),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MyHomePage(projectId: project.key!)),
+                      MaterialPageRoute(builder: (context) => PreviewPage(projectKey: project.key.toString())),
                     );
                   },
                 );
@@ -111,8 +71,7 @@ class _TopPageState extends State<TopPage> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          log.info('Add Button Pressed');
-          _addNewProject();
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const MyHomePage()));
         },
         child: const Icon(Icons.add),
       ),

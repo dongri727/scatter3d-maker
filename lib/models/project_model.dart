@@ -11,8 +11,8 @@ class ProjectModel {
   double zMax;
   double zMin;
   String csvFilePath;
-  String jsonData;
-  String scatterImagePath;
+  List<Map<String, dynamic>> jsonData;
+  bool isSaved;
   final DateTime createdAt;
 
   ProjectModel({
@@ -29,7 +29,7 @@ class ProjectModel {
     required this.zMin,
     required this.csvFilePath,
     required this.jsonData,
-    required this.scatterImagePath,
+    required this.isSaved,
     required this.createdAt,
   });
 
@@ -47,7 +47,7 @@ class ProjectModel {
       'zMin': zMin,
       'csvFilePath': csvFilePath,
       'jsonData': jsonData,
-      'scatterImagePath': scatterImagePath,
+      'isSaved': isSaved,
       'createdAt': createdAt.toIso8601String(),
     };
   }
@@ -65,8 +65,8 @@ class ProjectModel {
     double? zMax,
     double? zMin,
     String? csvFilePath,
-    String? jsonData,
-    String? scatterImagePath,
+    List<Map<String, dynamic>>? jsonData,
+    bool? isSaved,
     DateTime? createdAt,
   }) {
     return ProjectModel(
@@ -83,7 +83,7 @@ class ProjectModel {
       zMin: zMin ?? this.zMin,
       csvFilePath: csvFilePath ?? this.csvFilePath,
       jsonData: jsonData ?? this.jsonData,
-      scatterImagePath: scatterImagePath ?? this.scatterImagePath,
+      isSaved: isSaved ?? this.isSaved,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -102,8 +102,8 @@ class ProjectModel {
       zMax: map['zMax'] as double,
       zMin: map['zMin'] as double,
       csvFilePath: map['csvFilePath'] as String,
-      jsonData: map['jsonData'] as String,
-      scatterImagePath: map['scatterImagePath'] as String,
+      jsonData: map['jsonData'] as List<Map<String, dynamic>>,
+      isSaved: map['isSaved'] as bool,
       createdAt: DateTime.parse(map['createdAt'] as String),
     );
   }

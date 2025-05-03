@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scatter3d_maker/providers/project_provider.dart';
-import 'package:scatter3d_maker/models/project_model.dart';
+
 class AxisData {
   final String legend;
   final double min;
@@ -28,10 +27,6 @@ class ScatterPlotData {
 }
 
 class HomePageModel extends ChangeNotifier {
-  final int projectId;
-  ProjectModel? _project;
-  final ProjectProvider _projectProvider = ProjectProvider();
-
   String _scatterTitle = '';
   String _xLegend = '';
   double _xMin = 0.0;
@@ -42,31 +37,6 @@ class HomePageModel extends ChangeNotifier {
   String _zLegend = '';
   double _zMin = 0.0;
   double _zMax = 0.0;
-
-  HomePageModel({required this.projectId}) {
-    _loadProject();
-  }
-
-  Future<void> _loadProject() async {
-    try {
-      _project = await _projectProvider.getProject(projectId);
-      if (_project != null) {
-        _scatterTitle = _project!.projectName;
-        _xLegend = _project!.xLegend;
-        _xMin = _project!.xMin;
-        _xMax = _project!.xMax;
-        _yLegend = _project!.yLegend;
-        _yMin = _project!.yMin;
-        _yMax = _project!.yMax;
-        _zLegend = _project!.zLegend;
-        _zMin = _project!.zMin;
-        _zMax = _project!.zMax;
-        notifyListeners();
-      }
-    } catch (e) {
-      debugPrint('Error loading project: $e');
-    }
-  }
 
   // Getters
   String get scatterTitle => _scatterTitle;
