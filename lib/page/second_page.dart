@@ -62,25 +62,31 @@ class SecondPageState extends State<SecondPage> {
       content: '一度保存したプロジェクトは、設定の変更ができません',
       confirmText: 'OK',
       onConfirm: () async {
-        final newProject = ProjectModel(
-          projectName: widget.scatterData.title,
-          xLegend: widget.scatterData.xAxis.legend,
-          xMax: widget.scatterData.xAxis.max,
-          xMin: widget.scatterData.xAxis.min,
-          yLegend: widget.scatterData.yAxis.legend,
-          yMax: widget.scatterData.yAxis.max,
-          yMin: widget.scatterData.yAxis.min,
-          zLegend: widget.scatterData.zAxis.legend,
-          zMax: widget.scatterData.zAxis.max,
-          zMin: widget.scatterData.zAxis.min,
-          csvFilePath: '',
-          jsonData: widget.parsedData,
-          isSaved: true,
-          createdAt: DateTime.now(),
-        );
+        try {
+          _projectProvider = Provider.of<ProjectProvider>(context, listen: false);
+          final newProject = ProjectModel(
+            projectName: widget.scatterData.title,
+            xLegend: widget.scatterData.xAxis.legend,
+            xMax: widget.scatterData.xAxis.max,
+            xMin: widget.scatterData.xAxis.min,
+            yLegend: widget.scatterData.yAxis.legend,
+            yMax: widget.scatterData.yAxis.max,
+            yMin: widget.scatterData.yAxis.min,
+            zLegend: widget.scatterData.zAxis.legend,
+            zMax: widget.scatterData.zAxis.max,
+            zMin: widget.scatterData.zAxis.min,
+            csvFilePath: '',
+            jsonData: widget.parsedData,
+            isSaved: true,
+            createdAt: DateTime.now(),
+          );
           await _projectProvider.addProject(newProject);
           if (!mounted) return; 
           Navigator.popUntil(context, ModalRoute.withName('/topPage'));
+        }
+        catch (e) {
+          FailureSnackBar.show(e.toString());
+        }
       },
       onCancel: () {
         return;

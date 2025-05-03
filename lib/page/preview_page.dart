@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/project_provider.dart';
 import '../models/project_model.dart';
 import '../widget/scatter_plot_widget.dart';
-
+import '../widget/snackbar.dart';
 class PreviewPage extends StatefulWidget {
   final String projectKey;
 
@@ -25,13 +25,19 @@ class PreviewPageState extends State<PreviewPage> {
   @override
   void initState() {
     super.initState();
-    _projectProvider = Provider.of<ProjectProvider>(context, listen: false);
-    _projectProvider.loadProjects();
-    _loadData();
+    try {
+      _projectProvider = Provider.of<ProjectProvider>(context, listen: false);
+      _projectProvider.loadProjects();
+      _loadData();
+    }
+    catch (e) {
+      FailureSnackBar.show(e.toString());
+      Navigator.popUntil(context, ModalRoute.withName('/topPage'));
+    }
   }
 
   Future<void> _loadData() async {
-    // widget.parsedData は List<Map<String,dynamic>> として渡されている前提
+    _projectProvider = Provider.of<ProjectProvider>(context, listen: false);
     _project = await _projectProvider.getProject(int.parse(widget.projectKey));
 
     final List<dynamic> transformed = (_project!.jsonData as List<Map<String, dynamic>>)
