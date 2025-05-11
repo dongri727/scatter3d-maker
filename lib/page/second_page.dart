@@ -25,8 +25,7 @@ class SecondPage extends StatefulWidget {
 
 class SecondPageState extends State<SecondPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  late ProjectProvider _projectProvider;
-
+  ProjectProvider? _projectProvider;
   List<dynamic>? scores;
 
   @override
@@ -34,7 +33,9 @@ class SecondPageState extends State<SecondPage> {
     super.initState();
     _loadData();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _projectProvider.loadProjects();
+      if (!mounted) return;
+      _projectProvider = Provider.of<ProjectProvider>(context, listen: false);
+      _projectProvider?.loadProjects();
     });
   }
 
@@ -55,6 +56,9 @@ class SecondPageState extends State<SecondPage> {
   }
 
   Future<void> _saveData() async {
+    if (_projectProvider == null) {
+      _projectProvider = Provider.of<ProjectProvider>(context, listen: false);
+    }
 
     showAlertDialog(
       context: context,
@@ -63,7 +67,6 @@ class SecondPageState extends State<SecondPage> {
       confirmText: 'OK',
       onConfirm: () async {
         try {
-          _projectProvider = Provider.of<ProjectProvider>(context, listen: false);
           final newProject = ProjectModel(
             projectName: widget.scatterData.title,
             xLegend: widget.scatterData.xAxis.legend,
@@ -80,11 +83,11 @@ class SecondPageState extends State<SecondPage> {
             isSaved: true,
             createdAt: DateTime.now(),
           );
-          await _projectProvider.addProject(newProject);
+          await _projectProvider?.addProject(newProject);
           if (!mounted) return; 
           Navigator.popUntil(context, ModalRoute.withName('/topPage'));
-        }
-        catch (e) {
+        } catch (e) {
+          if (!mounted) return;
           FailureSnackBar.show(e.toString());
         }
       },
@@ -92,7 +95,6 @@ class SecondPageState extends State<SecondPage> {
         return;
       },
     );
-    
   }
 
   @override
