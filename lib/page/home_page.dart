@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scatter3d_maker/widget/snackbar.dart';
+import 'hint/tab_top.dart';
 import 'second_page.dart';
 import '../widget/axis_config_widget.dart';
 import '../widget/text_field.dart';
@@ -34,10 +35,12 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Builder(
         builder: (context) {
           final model = Provider.of<HomePageModel>(context);
+
           
           Future<void> handleImportCSV() async {
             final result = await _csvImporter.importCSV();
             if (result.parsedData.isNotEmpty) {
+
               setState(() {
                 _parsedData = result.parsedData;
                 _csvFilePath = result.filePath;
@@ -52,13 +55,17 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text("Upload your csv data"),
               actions: [
                 IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HintPage(), fullscreenDialog: true),
-                    );
-                  }, 
-                  icon: const Icon(Icons.question_mark))
+
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HintTab(),
+                            fullscreenDialog: true),
+                      );
+                    },
+                    icon: const Icon(Icons.question_mark))
+
               ],
             ),
             body: Center(
@@ -121,7 +128,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (model.xMax > model.xMin &&
                                 model.yMax > model.yMin &&
                                 model.zMax > model.zMin) {
+
                                 handleImportCSV();
+
                             } else {
                               FailureSnackBar.show(
                                   '最大値最小値の設定に不備があります。設定内容をご確認ください。');
@@ -148,11 +157,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
+
                       builder: (context) => SecondPage(
                         scatterData: scatterData,
                         parsedData: _parsedData!,
                         csvFilePath: _csvFilePath,
                       ),
+
                     ),
                   );
                 } else {
