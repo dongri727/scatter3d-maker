@@ -4,6 +4,7 @@ import '../providers/project_provider.dart';
 import '../models/project_model.dart';
 import '../widget/scatter_plot_widget.dart';
 import '../widget/snackbar.dart';
+import '../application/import_csv.dart';
 
 class PreviewPage extends StatefulWidget {
   final String projectKey;
@@ -21,6 +22,7 @@ class PreviewPageState extends State<PreviewPage> {
   ProjectProvider? _projectProvider;
   ProjectModel? _project;
   List<dynamic>? scores;
+  final _csvImporter = CsvImporter();
 
   @override
   void initState() {
@@ -37,29 +39,33 @@ class PreviewPageState extends State<PreviewPage> {
     try {
       if (_projectProvider == null) return;
       _project = await _projectProvider!.getProject(int.parse(widget.projectKey));
-      SuccessSnackBar.show('Project loaded');
-      if (_project == null) return;
+      
+      if (_project == null || _project!.csvFilePath == null) {
+        FailureSnackBar.show('Project or CSV path not found');
+        return;
+      }
 
-      final List<dynamic> transformed = (_project!.jsonData as List<dynamic>)
-          .map((dynamic item) {
-            final Map<String, dynamic> data = Map<String, dynamic>.from(item as Map<dynamic, dynamic>);
-            return {
-              'value': [
-                (data['x'] as num).toDouble(),
-                (data['y'] as num).toDouble(),
-                (data['z'] as num).toDouble(),
-              ],
-              'name': data['id'].toString(),
-              'itemStyle': {'color': data['color'].toString()},
-              'symbolSize': data['size'] is int ? data['size'] : (data['size'] as num).toInt(),
-            };
-          })
-          .toList();
+      // Load CSV data from saved path
+      final parsedData = await _csvImporter.loadFromPath(_project!.csvFilePath!);
+      
+      final List<dynamic> transformed = parsedData.map((data) {
+        return {
+          'value': [
+            data['x'].toDouble(),
+            data['y'].toDouble(),
+            data['z'].toDouble(),
+          ],
+          'name': data['id'].toString(),
+          'itemStyle': {'color': data['color'].toString()},
+          'symbolSize': data['size'] is int ? data['size'] : (data['size'] as num).toInt(),
+        };
+      }).toList();
 
       if (!mounted) return;
       setState(() {
         scores = transformed;
       });
+      SuccessSnackBar.show('Project loaded');
     } catch (e) {
       if (!mounted) return;
       FailureSnackBar.show(e.toString());
@@ -98,7 +104,7 @@ class PreviewPageState extends State<PreviewPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Scatter 3D'),
+        title: const Text('Preview'),
       ),
       body: Center(
         child: Column(

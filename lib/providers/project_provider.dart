@@ -4,13 +4,17 @@ import '../database/project_dao.dart';
 
 class ProjectProvider extends ChangeNotifier {
   final ProjectDao _projectDao = ProjectDao();
-  List<ProjectModel> _projects = [];
+  List<ProjectModel> _projects = [];  // privateに変更
 
-  List<ProjectModel> get projects => _projects;
+  List<ProjectModel> get projects => _projects;  // getterを使用
 
   Future<void> loadProjects() async {
-    _projects = await _projectDao.getAllProjects();
-    notifyListeners();
+    try {
+      _projects = await _projectDao.getAllProjects();
+      notifyListeners();
+    } catch (e) {
+      throw Exception('プロジェクトの読み込みに失敗しました: $e');
+    }
   }
 
   Future<ProjectModel?> getProject(int key) async {
@@ -21,7 +25,7 @@ class ProjectProvider extends ChangeNotifier {
     final key = await _projectDao.insertProject(project);
     project.key = key;
     _projects.add(project);
-    notifyListeners(); // リストを再読み込み
+    notifyListeners();
     return key;
   }
 
@@ -31,7 +35,12 @@ class ProjectProvider extends ChangeNotifier {
   }
 
   Future<void> deleteProject(int key) async {
-    await _projectDao.deleteProject(key);
-    await loadProjects(); // リストを再読み込み
+    try {
+      await _projectDao.deleteProject(key);
+      _projects.removeWhere((project) => project.key == key);
+      notifyListeners();
+    } catch (e) {
+      throw Exception('プロジェクトの削除に失敗しました: $e');
+    }
   }
 }

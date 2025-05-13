@@ -10,7 +10,7 @@ class ProjectModel {
   String zLegend;
   double zMax;
   double zMin;
-  String csvFilePath;
+  String? csvFilePath;
   List<Map<String, dynamic>> jsonData;
   bool isSaved;
   final DateTime createdAt;
@@ -27,7 +27,7 @@ class ProjectModel {
     required this.zLegend,
     required this.zMax,
     required this.zMin,
-    required this.csvFilePath,
+    this.csvFilePath,
     required this.jsonData,
     required this.isSaved,
     required this.createdAt,
@@ -89,6 +89,11 @@ class ProjectModel {
   }
 
   static ProjectModel fromMap(int key, Map<String, dynamic> map) {
+    final jsonDataRaw = map['jsonData'] as List<dynamic>;
+    final jsonData = jsonDataRaw.map((item) {
+      return Map<String, dynamic>.from(item as Map<dynamic, dynamic>);
+    }).toList();
+
     return ProjectModel(
       key: key,
       projectName: map['projectName'] as String,
@@ -101,8 +106,8 @@ class ProjectModel {
       zLegend: map['zLegend'] as String,
       zMax: map['zMax'] as double,
       zMin: map['zMin'] as double,
-      csvFilePath: map['csvFilePath'] as String,
-      jsonData: map['jsonData'] as List<Map<String, dynamic>>,
+      csvFilePath: map['csvFilePath'] as String?,
+      jsonData: jsonData,
       isSaved: map['isSaved'] as bool,
       createdAt: DateTime.parse(map['createdAt'] as String),
     );

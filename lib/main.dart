@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/secondPage': (context) => const SecondPage(
           parsedData: [],
           scatterData: [],
+          csvFilePath: '',
         ),
       },
       scaffoldMessengerKey: SuccessSnackBar.messengerKey,
