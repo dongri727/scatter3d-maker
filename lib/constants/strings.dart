@@ -8,4 +8,8 @@ class Strings {
   static const String languageEnglish = 'English';
   static const String languageJapanese = '日本語';
 
+  // 保存ファイル設定
+  static const String saveFileExtension = '.png';
+  static const String saveFilePrefix = 'sct3d_';
+
 }

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ import '../widget/text_field.dart';
 import '../widget/hint_page.dart';
 import '../constants/app_colors.dart';
 import 'home_page_model.dart';
+import '../application/import_csv.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -25,6 +25,8 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _showValidation = false;
   List<Map<String, dynamic>>? _parsedData;
   List<Map<String, dynamic>>? scatterData;
+  String? _csvFilePath;
+  final _csvImporter = CsvImporter();
 
   @override
   Widget build(BuildContext context) {
@@ -33,40 +35,16 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Builder(
         builder: (context) {
           final model = Provider.of<HomePageModel>(context);
-          Future<void> importCSV() async {
-            // Pick a CSV file using file_picker
-            FilePickerResult? result = await FilePicker.platform.pickFiles(
-              type: FileType.custom,
-              allowedExtensions: ['csv'],
-            );
 
-            if (result != null && result.files.single.path != null) {
-              final File file = File(result.files.single.path!);
-              final String csvString = await file.readAsString();
+          
+          Future<void> handleImportCSV() async {
+            final result = await _csvImporter.importCSV();
+            if (result.parsedData.isNotEmpty) {
 
-              // Parse CSV data using csv package
-              List<List<dynamic>> rows =
-                  const CsvToListConverter().convert(csvString);
-
-              // Assume the first row contains the header and skip it
-              List<Map<String, dynamic>> parsedData = [];
-              for (var i = 1; i < rows.length; i++) {
-                var row = rows[i];
-                parsedData.add({
-                  'id': row[0].toString(),
-                  'x': (row[1] as num).toDouble(),
-                  'y': (row[2] as num).toDouble(),
-                  'z': (row[3] as num).toDouble(),
-                  'color': row[4].toString(),
-                  'size': row[5] is int ? row[5] : (row[5] as num).toInt(),
-                });
-              }
               setState(() {
-                _parsedData = parsedData;
+                _parsedData = result.parsedData;
+                _csvFilePath = result.filePath;
               });
-            } else {
-              // Handle cancellation or error in file picking
-              FailureSnackBar.show('CSVファイルの選択がキャンセルされました。');
             }
           }
 
@@ -77,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text("Upload your csv data"),
               actions: [
                 IconButton(
+
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -86,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     },
                     icon: const Icon(Icons.question_mark))
+
               ],
             ),
             body: Center(
@@ -148,7 +128,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (model.xMax > model.xMin &&
                                 model.yMax > model.yMin &&
                                 model.zMax > model.zMin) {
-                              importCSV();
+
+                                handleImportCSV();
+
                             } else {
                               FailureSnackBar.show(
                                   '最大値最小値の設定に不備があります。設定内容をご確認ください。');
@@ -175,8 +157,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          SecondPage(scatterData, _parsedData!),
+
+                      builder: (context) => SecondPage(
+                        scatterData: scatterData,
+                        parsedData: _parsedData!,
+                        csvFilePath: _csvFilePath,
+                      ),
+
                     ),
                   );
                 } else {

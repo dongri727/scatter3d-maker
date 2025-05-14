@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
 import 'page/top_page.dart';
+import 'page/second_page.dart';
 import 'widget/snackbar.dart';
+import 'database/sembast_database.dart';
+import 'package:provider/provider.dart';
+import 'providers/project_provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SembastDatabase().database;
+  
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ProjectProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +31,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const TopPage(),
+      initialRoute: '/topPage',
+      routes: {
+        '/topPage': (context) => const TopPage(),
+        '/secondPage': (context) => const SecondPage(
+          parsedData: [],
+          scatterData: [],
+          csvFilePath: '',
+        ),
+      },
       scaffoldMessengerKey: SuccessSnackBar.messengerKey,
     );
   }

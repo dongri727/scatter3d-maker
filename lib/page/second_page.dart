@@ -1,15 +1,25 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_echarts/flutter_echarts.dart';
-import '../gl_script.dart';
+import 'package:scatter3d_maker/models/project_model.dart';
+import 'package:scatter3d_maker/providers/project_provider.dart';
+import '../widget/snackbar.dart';
+import '../widget/scatter_plot_widget.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+import '../constants/strings.dart';
+import '../widget/dialog.dart';
 
 class SecondPage extends StatefulWidget {
   final dynamic scatterData;
   final dynamic parsedData;
+  final String? csvFilePath;
 
-
-  const SecondPage(this.scatterData, this.parsedData, {super.key});
+  const SecondPage({
+    super.key, 
+    required this.scatterData, 
+    required this.parsedData,
+    required this.csvFilePath,
+  });
 
   @override
   SecondPageState createState() => SecondPageState();
@@ -17,13 +27,18 @@ class SecondPage extends StatefulWidget {
 
 class SecondPageState extends State<SecondPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
+  ProjectProvider? _projectProvider;
   List<dynamic>? scores;
 
   @override
   void initState() {
     super.initState();
     _loadData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _projectProvider = Provider.of<ProjectProvider>(context, listen: false);
+      _projectProvider?.loadProjects();
+    });
   }
 
   Future<void> _loadData() async {
@@ -42,6 +57,50 @@ class SecondPageState extends State<SecondPage> {
     });
   }
 
+  Future<void> _saveData() async {
+    if (_projectProvider == null) {
+      _projectProvider = Provider.of<ProjectProvider>(context, listen: false);
+    }
+
+    if (widget.csvFilePath == null) {
+      FailureSnackBar.show('CSVファイルが選択されていません');
+      return;
+    }
+
+    final shouldSave = await showAlertDialog(
+      context: context,
+      title: '保存しますか？',
+      content: '一度保存したプロジェクトは、設定の変更ができません',
+    );
+
+    if (shouldSave == true) {
+      try {
+        final newProject = ProjectModel(
+          projectName: widget.scatterData.title,
+          xLegend: widget.scatterData.xAxis.legend,
+          xMax: widget.scatterData.xAxis.max,
+          xMin: widget.scatterData.xAxis.min,
+          yLegend: widget.scatterData.yAxis.legend,
+          yMax: widget.scatterData.yAxis.max,
+          yMin: widget.scatterData.yAxis.min,
+          zLegend: widget.scatterData.zAxis.legend,
+          zMax: widget.scatterData.zAxis.max,
+          zMin: widget.scatterData.zAxis.min,
+          csvFilePath: widget.csvFilePath,
+          jsonData: widget.parsedData,
+          isSaved: true,
+          createdAt: DateTime.now(),
+        );
+        await _projectProvider?.addProject(newProject);
+        if (!mounted) return; 
+        Navigator.popUntil(context, ModalRoute.withName('/topPage'));
+      } catch (e) {
+        if (!mounted) return;
+        FailureSnackBar.show(e.toString());
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,64 +112,16 @@ class SecondPageState extends State<SecondPage> {
         child: Column(
           children: [
             Text(widget.scatterData.title),
-            SizedBox(
-              width: 800,
-              height: 800,
-              child: scores == null
-                  ? const CircularProgressIndicator()
-                  : Echarts(
-                extensions: const [glScript],
-                option: '''
-    (function() {
-      return {
-        tooltip: {},
-        grid3D: {
-          viewControl: {
-            alpha: 40,
-            beta: -60,
-            projection: 'orthographic'
-          }
-        },
-        xAxis3D: {
-          type: 'value',
-          min: ${widget.scatterData.xAxis.min},
-          max: ${widget.scatterData.xAxis.max},
-          name: '${widget.scatterData.xAxis.legend}',
-        },
-        yAxis3D: {
-          type: 'value',
-          min: ${widget.scatterData.yAxis.min},
-          max: ${widget.scatterData.yAxis.max},
-          name: '${widget.scatterData.yAxis.legend}',
-        },
-        zAxis3D: {
-          type: 'value',
-          min: ${widget.scatterData.zAxis.min},
-          max: ${widget.scatterData.zAxis.max},
-          name: '${widget.scatterData.zAxis.legend}',                         
-        },
-        series: [
-          {
-            type: 'scatter3D',
-            symbolSize: 5,
-            data: ${json.encode(scores)},
-                label: {
-                  show: true,
-                  textStyle: {
-                    fontSize: 12,
-                    borderWidth: 1
-                  },
-                  formatter: function(param) {
-                    return param.data.name;
-                  }
-                },
-                itemStyle: {opacity: 0.8}    
-              },   
-            ]
-                  };
-              })()
-              ''',
-              ),
+            ScatterPlotWidget(
+              scatterData: widget.scatterData,
+              scores: scores,
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                _saveData();
+              }, 
+              icon: const Icon(Icons.save),
+              label: const Text('保存'),
             ),
           ],
         ),

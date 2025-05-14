@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import '../page/setting_page.dart';
 import '../page/home_page.dart';
-import '../widget/dialog_text.dart';
+import '../page/preview_page.dart';
+import 'package:provider/provider.dart';
+import 'package:scatter3d_maker/providers/project_provider.dart';
+import 'package:scatter3d_maker/widget/dialog.dart';
+import '../widget/snackbar.dart';
 
 class TopPage extends StatefulWidget { 
   const TopPage({super.key});
@@ -12,25 +16,27 @@ class TopPage extends StatefulWidget {
 }
 
 class _TopPageState extends State<TopPage> { 
-  final List<String> _projects = [
-    "test1",
-    "test2",
-    "test3",
-  ];
+  late ProjectProvider _projectProvider;
 
-  Future<void> _addNewProject() async {
-    final result = await showDialog<String>(
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _projectProvider = Provider.of<ProjectProvider>(context, listen: false);
+      _projectProvider.loadProjects();
+    });
+  }
+
+  Future<void> _deleteProject(String projectKey) async {
+    final shouldDelete = await showAlertDialog(
       context: context,
-      builder: (context) => const DialogText(
-        title: "新規プロジェクト",
-        text: "",
-      ),
+      title: "確認",
+      content: "本当に削除しますか？",
     );
 
-    if (result != null && result.isNotEmpty) {
-      setState(() {
-        _projects.add(result);
-      });
+    if (shouldDelete == true) {
+      await _projectProvider.deleteProject(int.parse(projectKey));
     }
   }
 
@@ -60,19 +66,38 @@ class _TopPageState extends State<TopPage> {
           ),
         ],
       ),  
-      body: ListView.builder(
-        itemCount: _projects.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(_projects[index]),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const MyHomePage()));
-            },
-          );
+      body: Consumer<ProjectProvider>(
+        builder: (context, provider, child) {
+          return provider.projects.isEmpty
+              ? const Center(child: Text('データがありません'))
+              : ListView.builder(
+                  itemCount: provider.projects.length,
+                  itemBuilder: (context, index) {
+                    final project = provider.projects[index];
+                    return ListTile(
+                      title: Text(project.projectName),
+                      subtitle: Text('X: ${project.xMin} ~ ${project.xMax} | Y: ${project.yMin} ~ ${project.yMax} | Z: ${project.zMin} ~ ${project.zMax}'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => PreviewPage(projectKey: project.key.toString())),
+                        );
+                      },
+                      trailing: IconButton(
+                        onPressed: () {
+                          _deleteProject(project.key.toString());
+                        },
+                        icon: const Icon(Icons.delete),
+                      ),
+                    );
+                  },
+                );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addNewProject,
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const MyHomePage()));
+        },
         child: const Icon(Icons.add),
       ),
     );
