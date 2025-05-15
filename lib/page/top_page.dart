@@ -6,7 +6,7 @@ import '../page/preview_page.dart';
 import 'package:provider/provider.dart';
 import 'package:scatter3d_maker/providers/project_provider.dart';
 import 'package:scatter3d_maker/widget/dialog.dart';
-import '../widget/snackbar.dart';
+import 'package:intl/intl.dart';
 
 class TopPage extends StatefulWidget { 
   const TopPage({super.key});
@@ -17,6 +17,7 @@ class TopPage extends StatefulWidget {
 
 class _TopPageState extends State<TopPage> { 
   late ProjectProvider _projectProvider;
+  final _dateFormat = DateFormat('yyyy/MM/dd HH:mm');
 
   @override
   void initState() {
@@ -76,7 +77,12 @@ class _TopPageState extends State<TopPage> {
                     final project = provider.projects[index];
                     return ListTile(
                       title: Text(project.projectName),
-                      subtitle: Text('X: ${project.xMin} ~ ${project.xMax} | Y: ${project.yMin} ~ ${project.yMax} | Z: ${project.zMin} ~ ${project.zMax}'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('作成日時: ${_dateFormat.format(project.createdAt)}'),
+                        ],
+                      ),
                       onTap: () {
                         Navigator.push(
                           context,
