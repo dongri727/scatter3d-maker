@@ -5,6 +5,7 @@ import 'package:flutter_echarts/flutter_echarts.dart';
 
 import '../../constants/app_colors.dart';
 import '../../gl_script.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class HintScatterPage extends StatefulWidget {
@@ -43,7 +44,7 @@ class HintScatterPageState extends State<HintScatterPage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 50),
-              child: Text("あなたのCSVデータを、こんなふうに可視化します"),
+              child: Text(AppLocalizations.of(context)!.hintD),
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -73,19 +74,19 @@ class HintScatterPageState extends State<HintScatterPage> {
           type: 'value',
           min: ${-5},
           max: ${110},
-          name: '${"Xの値"}',
+          name: '${"X"}',
         },
         yAxis3D: {
           type: 'value',
           min: ${-5},
           max: ${110},
-          name: '${"Yの値"}',
+          name: '${"Y"}',
         },
         zAxis3D: {
           type: 'value',
           min: ${-5},
           max: ${110},
-          name: '${"Zの値"}',                         
+          name: '${"Z"}',                         
         },
         series: [
           {

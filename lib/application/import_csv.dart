@@ -1,11 +1,15 @@
+import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:path/path.dart';
 import 'package:scatter3d_maker/widget/snackbar.dart';
 import 'package:csv/csv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CsvImporter {
-  Future<({List<Map<String, dynamic>> parsedData, String? filePath})> importCSV() async {
+  Future<({List<Map<String, dynamic>> parsedData, String? filePath})> importCSV(BuildContext context) async {
     // Pick a CSV file using file_picker
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -33,16 +37,16 @@ class CsvImporter {
         });
       }
 
-      SuccessSnackBar.show('CSVファイルの読み込みが完了しました。');
+      SuccessSnackBar.show(AppLocalizations.of(context)!.fileA);
       return (parsedData: parsedData, filePath: result.files.single.path);
     } else {
       // Handle cancellation or error in file picking
-      FailureSnackBar.show('CSVファイルの選択がキャンセルされました。');
+      FailureSnackBar.show(AppLocalizations.of(context)!.fileB);
       return (parsedData: <Map<String, dynamic>>[], filePath: null);
     }
   }
 
-  Future<List<Map<String, dynamic>>> loadFromPath(String filePath) async {
+  Future<List<Map<String, dynamic>>> loadFromPath(String filePath, BuildContext context) async {
     try {
       final File file = File(filePath);
       final String csvString = await file.readAsString();
@@ -65,7 +69,7 @@ class CsvImporter {
       }
       return parsedData;
     } catch (e) {
-      FailureSnackBar.show('CSVファイルの読み込みに失敗しました: ${e.toString()}');
+      FailureSnackBar.show(AppLocalizations.of(context)!.fileC);
       return [];
     }
   }

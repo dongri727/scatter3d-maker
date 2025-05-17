@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../constants/strings.dart';
 import '../widget/dialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SecondPage extends StatefulWidget {
   final dynamic scatterData;
@@ -58,19 +59,17 @@ class SecondPageState extends State<SecondPage> {
   }
 
   Future<void> _saveData() async {
-    if (_projectProvider == null) {
-      _projectProvider = Provider.of<ProjectProvider>(context, listen: false);
-    }
+    _projectProvider ??= Provider.of<ProjectProvider>(context, listen: false);
 
     if (widget.csvFilePath == null) {
-      FailureSnackBar.show('CSVファイルが選択されていません');
+      FailureSnackBar.show(AppLocalizations.of(context)!.saveC);
       return;
     }
 
     final shouldSave = await showAlertDialog(
       context: context,
-      title: '保存しますか？',
-      content: '一度保存したプロジェクトは、設定の変更ができません',
+      title: AppLocalizations.of(context)!.saveA,
+      content: AppLocalizations.of(context)!.saveB,
     );
 
     if (shouldSave == true) {
@@ -121,7 +120,7 @@ class SecondPageState extends State<SecondPage> {
                 _saveData();
               }, 
               icon: const Icon(Icons.save),
-              label: const Text('保存'),
+              label: Text(AppLocalizations.of(context)!.saveD),
             ),
           ],
         ),

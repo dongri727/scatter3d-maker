@@ -12,6 +12,7 @@ import '../widget/hint_page.dart';
 import '../constants/app_colors.dart';
 import 'home_page_model.dart';
 import '../application/import_csv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -38,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           
           Future<void> handleImportCSV() async {
-            final result = await _csvImporter.importCSV();
+            final result = await _csvImporter.importCSV(context);
             if (result.parsedData.isNotEmpty) {
 
               setState(() {
@@ -52,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: AppColors.backgroundColor,
             appBar: AppBar(
               backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-              title: const Text("Upload your csv data"),
+              title: Text(AppLocalizations.of(context)!.homeA),
               actions: [
                 IconButton(
 
@@ -80,14 +81,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       MyTextField(
-                        label: 'タイトル',
-                        hintText: '散布図のタイトル名を入力してください',
+                        label: AppLocalizations.of(context)!.homeB,
+                        hintText: AppLocalizations.of(context)!.homeC,
                         onChanged: (value) {
                           model.setScatterTitle(value);
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return '必須項目です';
+                            return AppLocalizations.of(context)!.alertA;
                           }
                           return null;
                         },
@@ -133,11 +134,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
                             } else {
                               FailureSnackBar.show(
-                                  '最大値最小値の設定に不備があります。設定内容をご確認ください。');
+                                  AppLocalizations.of(context)!.alertB);
                             }
                           } else {
                             FailureSnackBar.show(
-                                '入力内容に不備があります。エラーメッセージをご確認ください。');
+                                AppLocalizations.of(context)!.alertC);
                           }
                         },
                         icon: const Icon(Icons.file_upload),
@@ -167,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   );
                 } else {
-                  FailureSnackBar.show('CSVデータが読み込まれていません。');
+                  FailureSnackBar.show(AppLocalizations.of(context)!.alertD);
                 }
               },
               child: const Icon(Icons.last_page),

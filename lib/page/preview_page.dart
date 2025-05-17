@@ -45,8 +45,10 @@ class PreviewPageState extends State<PreviewPage> {
         return;
       }
 
-      // Load CSV data from saved path
-      final parsedData = await _csvImporter.loadFromPath(_project!.csvFilePath!);
+      // Use stored JSON if available, otherwise fall back to reloading the CSV file
+      final List<Map<String, dynamic>> parsedData = _project!.jsonData != null
+          ? List<Map<String, dynamic>>.from(_project!.jsonData!)
+          : await _csvImporter.loadFromPath(_project!.csvFilePath!, context);
       
       final List<dynamic> transformed = parsedData.map((data) {
         return {
@@ -104,7 +106,7 @@ class PreviewPageState extends State<PreviewPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Preview'),
+        title: const Text('Your Project'),
       ),
       body: Center(
         child: Column(

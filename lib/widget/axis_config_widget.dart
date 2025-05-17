@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'text_field.dart';
 import '../constants/app_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class AxisConfigWidget extends StatefulWidget{
   const AxisConfigWidget({
@@ -45,7 +47,7 @@ class _AxisConfigState extends State<AxisConfigWidget>{
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${widget.axisLabel}軸の設定',
+            '${widget.axisLabel}${AppLocalizations.of(context)!.homeD}',
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -53,13 +55,13 @@ class _AxisConfigState extends State<AxisConfigWidget>{
           ),
           const SizedBox(height: 16),
           MyTextField( 
-            label: '${widget.axisLabel}軸項目名',
-            hintText: '${widget.axisLabel}軸の項目名を入力してください',
+            label: '${widget.axisLabel}${AppLocalizations.of(context)!.homeE}',
+            hintText: '${widget.axisLabel}${AppLocalizations.of(context)!.homeF}',
             initialValue: widget.legend,
             onChanged: widget.onLegendChanged,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return '必須項目です';
+                return AppLocalizations.of(context)!.alertA;
               }
               return null;
             },
@@ -68,17 +70,17 @@ class _AxisConfigState extends State<AxisConfigWidget>{
             children: [
               Flexible(
                 child: MyTextField(
-                  label: '${widget.axisLabel}軸最小値',
-                  hintText: '${widget.axisLabel}軸の最小値を数値で入力してください',
+                  label: '${widget.axisLabel}${AppLocalizations.of(context)!.homeG}',
+                  hintText: '${widget.axisLabel}${AppLocalizations.of(context)!.homeG}',
                   initialValue: widget.minVal.toString(),
                   onChanged: (value) => widget.onMinValChanged(double.tryParse(value) ?? 0.0),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return '必須項目です';
+                      return AppLocalizations.of(context)!.alertA;
                     }
                     if (double.tryParse(value) == null) {
-                      return '数値を入力してください';
+                      return AppLocalizations.of(context)!.alertE;
                     }
                     return null;
                   },
@@ -86,17 +88,17 @@ class _AxisConfigState extends State<AxisConfigWidget>{
               ),
               Flexible(
                 child: MyTextField(
-                  label: '${widget.axisLabel}軸最大値',
-                  hintText: '${widget.axisLabel}軸の最大値を数値で入力してください',
+                  label: '${widget.axisLabel}${AppLocalizations.of(context)!.homeH}',
+                  hintText: '${widget.axisLabel}${AppLocalizations.of(context)!.homeH}',
                   initialValue: widget.maxVal.toString(),
                   onChanged: (value) => widget.onMaxValChanged(double.tryParse(value) ?? 0.0),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return '必須項目です';
+                      return AppLocalizations.of(context)!.alertA;
                     }
                     if (double.tryParse(value) == null) {
-                      return '数値を入力してください';
+                      return AppLocalizations.of(context)!.alertE;
                     }
                     return null;
                   },

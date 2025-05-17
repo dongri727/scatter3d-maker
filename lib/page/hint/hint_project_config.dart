@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HintProjectConfig extends StatelessWidget{
   const HintProjectConfig({super.key});
@@ -14,9 +15,9 @@ class HintProjectConfig extends StatelessWidget{
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: const Text(
-                  "入力画面で",
-                   style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context)!.hintE,
+                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     ),
@@ -24,22 +25,18 @@ class HintProjectConfig extends StatelessWidget{
               ),
               Image.asset(
                 height: 400,
-                  "assets/images/img_project_config.png"),
+                  AppLocalizations.of(context)!.hintF),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: const Text(
-                  "各軸の設定",
-                   style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context)!.hintG,
+                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     ),
                 ),
               ),
-               Text('①項目名：軸に添える名称\n\n'
-                      '②最大値：目盛りの最大値\n(データの最大値より大きく）\n\n'
-                      '③最小値：目盛りの最小値。マイナスも可\n（データの最小値より小さく）\n\n'
-                      '※全て必須、※最大値>最小値'
-                  )
+               Text(AppLocalizations.of(context)!.hintH),
             ],
           ),
         ), 
