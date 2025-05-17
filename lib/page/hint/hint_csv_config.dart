@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
-import '../../constants/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HintCsvConfig extends StatelessWidget{
   const HintCsvConfig({super.key});
@@ -20,16 +20,9 @@ class HintCsvConfig extends StatelessWidget{
                     "assets/images/sample.jpg",
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text(
-                  "ExcelやNumbersでつくったデータをCSVで書き出します。\n\n"
-                    "idは各データの表示名、番号でも名前でも。\n\n"
-                        "x,y,zはデータの座標、\n整数でも小数でも、プラスでもマイナスでも。\n\n"
-                        "Colorはシンプルな色名を英語で、\n単色も可。\n\n"
-                        "sizeは10、20, 30のいずれか。統一してもよい。\n"
-                        "サンプル画像の一番小さいドットが10です。",
-                      ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(AppLocalizations.of(context)!.hintI),
                   ),
             ],
           ),

@@ -14,7 +14,7 @@ Future<bool?> showAlertDialog({
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('キャンセル'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),

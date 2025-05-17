@@ -80,7 +80,7 @@ class _TextInputDialogState extends State<TextInputDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('キャンセル'),
+          child: const Text('Cancel'),
         ),
         TextButton(
           onPressed: _isValid

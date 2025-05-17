@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'hint_csv_config.dart';
 import 'hint_project_config.dart';
 import 'hint_scatter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HintTab extends StatelessWidget {
   const HintTab ({super.key});
@@ -17,12 +18,12 @@ class HintTab extends StatelessWidget {
           title: const Text(
             'What is Scatter 3D ?',
           ),
-          bottom: const TabBar(
+          bottom: TabBar(
             indicatorColor: Colors.yellow,
             tabs: [
-              Tab(text: "表示例"),
-              Tab(text: "設定方法"),
-              Tab(text: "データ形式"),
+              Tab(text: AppLocalizations.of(context)!.hintA),
+              Tab(text: AppLocalizations.of(context)!.hintB),
+              Tab(text: AppLocalizations.of(context)!.hintC),
             ],
           ),
         ),
