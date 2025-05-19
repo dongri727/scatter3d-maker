@@ -77,20 +77,12 @@ class _TopPageState extends State<TopPage> {
           ),
         ],
       ),
-      body: Container(
-        constraints: const BoxConstraints.expand(),
-          decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/top.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-
-        child: Column(
+      body: Column(
           children: [
             Expanded(
               flex: 1,
-                child: Container()),
+                child: Image(image:  AssetImage("assets/images/top.png")),
+                ),
             Expanded(
               flex: 1,
               child: Consumer<ProjectProvider>(
@@ -102,7 +94,7 @@ class _TopPageState extends State<TopPage> {
                           itemBuilder: (context, index) {
                             final project = provider.projects[index];
                             return Padding(
-                              padding: const EdgeInsets.fromLTRB(30, 8, 30, 8),
+                              padding: const EdgeInsets.fromLTRB(30, 4, 30, 4),
                               child: Card(
                                 color: Colors.purple[50],
                                 child: Padding(
@@ -138,7 +130,6 @@ class _TopPageState extends State<TopPage> {
             ),
           ],
         ),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const MyHomePage()));
