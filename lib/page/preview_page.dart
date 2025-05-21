@@ -67,7 +67,6 @@ class PreviewPageState extends State<PreviewPage> {
       setState(() {
         scores = transformed;
       });
-      SuccessSnackBar.show('Project loaded');
     } catch (e) {
       if (!mounted) return;
       FailureSnackBar.show(e.toString());
