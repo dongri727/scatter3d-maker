@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scatter3d_maker/page/info_page.dart';
 import '../constants/app_colors.dart';
 import '../constants/language_button.dart';
 import '../page/setting_page.dart';
@@ -58,7 +59,7 @@ class _TopPageState extends State<TopPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const HintTab(),
+                  builder: (context) => const InfoPage(),
                 ),
               );
             },
@@ -79,7 +80,7 @@ class _TopPageState extends State<TopPage> {
       ),
       body: Column(
           children: [
-            Expanded(
+            const Expanded(
               flex: 1,
                 child: Image(image:  AssetImage("assets/images/top.png")),
                 ),
