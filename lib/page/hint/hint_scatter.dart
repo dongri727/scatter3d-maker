@@ -36,31 +36,32 @@ class HintScatterPageState extends State<HintScatterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final shortest = MediaQuery.of(context).size.shortestSide;
+    final displaySize = shortest < 500.0 ? shortest : 500.0;
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       key: scaffoldKey,
       body: Center(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 50),
-              child: Text(AppLocalizations.of(context)!.hintD),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Image.asset(
-                  height: 60,
-                  "assets/images/rotate.jpg"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(AppLocalizations.of(context)!.hintD),
+                Image.asset(
+                    height: 60,
+                    "assets/images/rotate.jpg"),
+              ],
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width,
+              width: displaySize,
+              height: displaySize,
               child: scores == null
                   ? const CircularProgressIndicator()
                   : Echarts(
                 extensions: const [glScript],
                 option: '''
-    (function() {
+          (function() {
       return {
         tooltip: {},
         grid3D: {
