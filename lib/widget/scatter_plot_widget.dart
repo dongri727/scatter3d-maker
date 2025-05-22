@@ -15,9 +15,11 @@ class ScatterPlotWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final shortest = MediaQuery.of(context).size.shortestSide;
+    final displaySize = shortest < 500.0 ? shortest : 500.0;
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.width,
+      width: displaySize,
+      height: displaySize,
       child: scores == null
           ? const CircularProgressIndicator()
           : Echarts(

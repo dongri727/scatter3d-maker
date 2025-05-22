@@ -107,22 +107,24 @@ class SecondPageState extends State<SecondPage> {
       appBar: AppBar(
         title: const Text("Scatter 3D"),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Text(widget.scatterData.title),
-            ScatterPlotWidget(
-              scatterData: widget.scatterData,
-              scores: scores,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                _saveData();
-              }, 
-              icon: const Icon(Icons.save),
-              label: Text(AppLocalizations.of(context)!.saveD),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Text(widget.scatterData.title),
+              ScatterPlotWidget(
+                scatterData: widget.scatterData,
+                scores: scores,
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  _saveData();
+                },
+                icon: const Icon(Icons.save),
+                label: Text(AppLocalizations.of(context)!.saveD),
+              ),
+            ],
+          ),
         ),
       ),
     );
