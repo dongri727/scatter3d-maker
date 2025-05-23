@@ -31,5 +31,8 @@
   "saveD": "Save",
   "fileA": "Loading complete",
   "fileB": "Selection canceled",
-  "fileC": "Loading failed"
+  "fileC": "Loading failed",
+  "permissionA": "This app needs access to your documents folder to open files.",
+  "permissionB": "This feature requires access to your files.",
+  "permissionC": "Open Settings"
 }
