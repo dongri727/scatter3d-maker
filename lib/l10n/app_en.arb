@@ -34,7 +34,7 @@
   "fileC": "Loading failed",
   "permissionA": "This app needs access to your documents folder to open files.",
   "permissionB": "This feature requires access to your files.",
-  "permissionC": "Open Settings"
+  "permissionC": "Open Settings",
   "infoA": "Handling of Personal Information",
   "infoB": "This app does not collect any personal information from you, nor does it track or use any information on your device.",
   "infoC": "Create a three-dimensional scatterplot using the CSV data in your device and store it in your device.",
