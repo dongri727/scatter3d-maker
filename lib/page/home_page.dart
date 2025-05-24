@@ -13,6 +13,8 @@ import '../constants/app_colors.dart';
 import 'home_page_model.dart';
 import '../application/import_csv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../widget/permission_dialog.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -129,8 +131,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (model.xMax > model.xMin &&
                                 model.yMax > model.yMin &&
                                 model.zMax > model.zMin) {
-
-                                handleImportCSV();
+                              
+                              // パーミッション要求を追加
+                              PermissionRequester.requestPermission(
+                                context: context,
+                                permission: Permission.storage,
+                                title: AppLocalizations.of(context)!.permissionA,
+                                message: AppLocalizations.of(context)!.permissionB,
+                              ).then((hasPermission) {
+                                if (hasPermission) {
+                                  handleImportCSV();
+                                }
+                              });
 
                             } else {
                               FailureSnackBar.show(

@@ -47,5 +47,8 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+
+		<key>NSDocumentsFolderUsageDescription</key>
+		<string>This app needs access to your documents folder to open files.</string>
 	</dict>
 </plist>
