@@ -131,18 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (model.xMax > model.xMin &&
                                 model.yMax > model.yMin &&
                                 model.zMax > model.zMin) {
-                              
-                              // パーミッション要求を追加
-                              PermissionRequester.requestPermission(
-                                context: context,
-                                permission: Permission.storage,
-                                title: AppLocalizations.of(context)!.permissionA,
-                                message: AppLocalizations.of(context)!.permissionB,
-                              ).then((hasPermission) {
-                                if (hasPermission) {
-                                  handleImportCSV();
-                                }
-                              });
+                              handleImportCSV();
 
                             } else {
                               FailureSnackBar.show(
