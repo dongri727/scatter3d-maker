@@ -53,6 +53,7 @@ dependencies:
   intl: ^0.19.0
   webview_flutter: ^4.10.0
   flutter_native_splash: ^2.4.6
+  flutter_launcher_icons: ^0.14.3
   permission_handler: ^11.0.1
   url_launcher: ^6.3.1
 
@@ -68,14 +69,26 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 flutter_native_splash:
-  color: "#ffffff" # 背景色（必須）
-  image: assets/images/scatter3d-maker.png # 表示するロゴ画像（任意）
-
+  color: "#111124" # 背景色（必須）
+  image: "assets/images/splash_768.png"
+  color_dark: '#111124'
+  image_dark: 'assets/images/splash_768.png'
+  fullscreen: true
   android_12:
-    image: assets/images/scatter3d-maker.png  
-    icon_background_color: "#ffffff"
+    icon_background_color: '#111124'
+    image: 'assets/images/splash_1152.png'
+    icon_background_color_dark: '#111124'
+    image_dark: 'assets/images/splash_1152.png'
 
   web: true # Webでは表示しない（必要に応じて）
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: 'assets/images/scatter3d-maker.png'
+  adaptive_icon_background: '#111124'
+  adaptive_icon_foreground: 'assets/images/scatter3d_adaptive.png'
+
 
 
 # For information on the generic Dart part of this file, see the
