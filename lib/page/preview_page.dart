@@ -47,7 +47,7 @@ class PreviewPageState extends State<PreviewPage> {
 
       // Use stored JSON if available, otherwise fall back to reloading the CSV file
       final List<Map<String, dynamic>> parsedData = _project!.jsonData != null
-          ? List<Map<String, dynamic>>.from(_project!.jsonData!)
+          ? List<Map<String, dynamic>>.from(_project!.jsonData)
           : await _csvImporter.loadFromPath(_project!.csvFilePath!, context);
       
       final List<dynamic> transformed = parsedData.map((data) {
@@ -105,12 +105,16 @@ class PreviewPageState extends State<PreviewPage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Your Project'),
       ),
       body: Center(
         child: Column(
           children: [
-            Text(_project!.projectName),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(_project!.projectName),
+            ),
             ScatterPlotWidget(
               scatterData: scatterData,
               scores: scores,

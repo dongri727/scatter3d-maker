@@ -5,7 +5,6 @@ import 'hint/tab_top.dart';
 import 'second_page.dart';
 import '../widget/axis_config_widget.dart';
 import '../widget/text_field.dart';
-import '../constants/app_colors.dart';
 import 'home_page_model.dart';
 import '../application/import_csv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -46,7 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
           }
 
           return Scaffold(
-            backgroundColor: AppColors.backgroundColor,
             appBar: AppBar(
               backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               title: Text(AppLocalizations.of(context)!.homeA),

@@ -1,12 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:scatter3d_maker/models/project_model.dart';
 import 'package:scatter3d_maker/providers/project_provider.dart';
 import '../widget/snackbar.dart';
 import '../widget/scatter_plot_widget.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import '../constants/strings.dart';
 import '../widget/dialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -105,13 +102,17 @@ class SecondPageState extends State<SecondPage> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Scatter 3D"),
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
-              Text(widget.scatterData.title),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(widget.scatterData.title),
+              ),
               ScatterPlotWidget(
                 scatterData: widget.scatterData,
                 scores: scores,

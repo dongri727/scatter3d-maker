@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:scatter3d_maker/page/info_page.dart';
-import '../constants/app_colors.dart';
 import '../constants/language_button.dart';
-import '../page/setting_page.dart';
 import '../page/home_page.dart';
 import '../page/preview_page.dart';
 import 'package:provider/provider.dart';
 import 'package:scatter3d_maker/providers/project_provider.dart';
 import 'package:scatter3d_maker/widget/dialog.dart';
-import '../widget/snackbar.dart';
 import 'hint/tab_top.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
 
 class TopPage extends StatefulWidget { 
   const TopPage({super.key});
 
   @override
-  _TopPageState createState() => _TopPageState(); 
+  TopPageState createState() => TopPageState();
 }
 
-class _TopPageState extends State<TopPage> { 
+class TopPageState extends State<TopPage> {
   late ProjectProvider _projectProvider;
 
   @override
@@ -48,7 +44,6 @@ class _TopPageState extends State<TopPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text(""),

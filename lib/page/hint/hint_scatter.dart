@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
-
-import '../../constants/app_colors.dart';
 import '../../gl_script.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -39,7 +37,6 @@ class HintScatterPageState extends State<HintScatterPage> {
     final shortest = MediaQuery.of(context).size.shortestSide;
     final displaySize = shortest < 500.0 ? shortest : 500.0;
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       key: scaffoldKey,
       body: Center(
         child: Column(

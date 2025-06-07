@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HintCsvConfig extends StatelessWidget{
@@ -8,7 +7,6 @@ class HintCsvConfig extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.backgroundColor,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
