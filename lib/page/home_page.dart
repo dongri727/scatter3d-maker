@@ -47,6 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              elevation: 6,
+              shadowColor: Colors.blueGrey[50],
+              shape:const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(8))),
               title: Text(AppLocalizations.of(context)!.homeA),
               actions: [
                 IconButton(

@@ -53,7 +53,7 @@ class _MyTextFieldState extends State<MyTextField> {
           border: const OutlineInputBorder(),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           errorStyle: const TextStyle(
-            color: Colors.red,
+            color: Colors.deepOrange,
             fontSize: 12,
           ),
         ),

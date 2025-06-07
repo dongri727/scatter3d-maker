@@ -103,6 +103,11 @@ class SecondPageState extends State<SecondPage> {
       key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        elevation: 6,
+        shadowColor: Colors.blueGrey[50],
+        shape:const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(8))),
         title: const Text("Scatter 3D"),
       ),
       body: SingleChildScrollView(

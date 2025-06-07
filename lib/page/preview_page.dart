@@ -106,6 +106,11 @@ class PreviewPageState extends State<PreviewPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        elevation: 6,
+        shadowColor: Colors.blueGrey[50],
+        shape:const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(8))),
         title: const Text('Your Project'),
       ),
       body: Center(

@@ -18,7 +18,7 @@ class HintTab extends StatelessWidget {
             'What is Scatter 3D ?',
           ),
           bottom: TabBar(
-            indicatorColor: Colors.yellow,
+            indicatorColor: Colors.lime,
             tabs: [
               Tab(text: AppLocalizations.of(context)!.hintA),
               Tab(text: AppLocalizations.of(context)!.hintB),

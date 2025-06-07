@@ -46,6 +46,11 @@ class TopPageState extends State<TopPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        elevation: 6,
+        shadowColor: Colors.blueGrey[50],
+        shape:const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(8))),
         title: const Text(""),
         actions: [
           const LanguageDropdownButton(),
@@ -92,7 +97,7 @@ class TopPageState extends State<TopPage> {
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(30, 4, 30, 4),
                               child: Card(
-                                color: Colors.purple[50],
+                                color: Colors.blueGrey[50],
                                 child: Padding(
                                   padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
                                   child: ListTile(

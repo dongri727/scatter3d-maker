@@ -8,7 +8,7 @@ class SuccessSnackBar extends SnackBar {
 
   SuccessSnackBar({super.key, required String message}) : super(
     content: Text(message),
-    backgroundColor: Colors.green,
+    backgroundColor: Colors.teal,
     duration: const Duration(seconds: 3),
   );
 
@@ -24,7 +24,7 @@ class FailureSnackBar extends SnackBar {
 
   FailureSnackBar({super.key, required String message}) : super(
     content: Text(message),
-    backgroundColor: Colors.red,
+    backgroundColor: Colors.deepOrange,
     duration: const Duration(seconds: 3),
   );
 
