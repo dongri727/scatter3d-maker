@@ -28,6 +28,8 @@
 	<true/>
 	<key>NSDocumentsFolderUsageDescription</key>
 	<string>This app needs access to your documents folder to open files.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Photos are not used in this application.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
