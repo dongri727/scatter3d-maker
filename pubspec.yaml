@@ -84,7 +84,7 @@ flutter_native_splash:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: 'assets/images/scatter3d-maker.png'
+  image_path: 'assets/images/appIcon.png'
   adaptive_icon_background: '#111124'
   adaptive_icon_foreground: 'assets/images/scatter3d_adaptive.png'
 
