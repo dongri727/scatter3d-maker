@@ -32,6 +32,10 @@ class AxisConfigWidget extends StatefulWidget{
 }
 
 class _AxisConfigState extends State<AxisConfigWidget>{
+
+  double? _minMin;
+  double? _maxMax;
+
   @override
   Widget build(BuildContext content){
     return Container(
@@ -51,7 +55,7 @@ class _AxisConfigState extends State<AxisConfigWidget>{
             ),
           ),
           const SizedBox(height: 16),
-          MyTextField( 
+          MyTextField(
             label: '${widget.axisLabel}${AppLocalizations.of(context)!.homeE}',
             hintText: '${widget.axisLabel}${AppLocalizations.of(context)!.homeF}',
             initialValue: widget.legend,
@@ -68,15 +72,22 @@ class _AxisConfigState extends State<AxisConfigWidget>{
               Flexible(
                 child: MyTextField(
                   label: '${widget.axisLabel}${AppLocalizations.of(context)!.homeG}',
-                  hintText: '${widget.axisLabel}${AppLocalizations.of(context)!.homeG}',
-                  initialValue: widget.minVal.toString(),
-                  onChanged: (value) => widget.onMinValChanged(double.tryParse(value) ?? 0.0),
-                  keyboardType: TextInputType.number,
+                  hintText: 'e.g. -3.5',
+                  onChanged: (value) {
+                    final parsed = double.tryParse(value);
+                    if (parsed != null) {
+                      setState(() {
+                        _minMin = parsed;
+                      });
+                      widget.onMinValChanged(parsed);
+                    }
+                  },
+                  keyboardType: const TextInputType.numberWithOptions(signed: true),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return AppLocalizations.of(context)!.alertA;
+                      widget.onMinValChanged(0.0);
                     }
-                    if (double.tryParse(value) == null) {
+                    if (double.tryParse(value!) == null) {
                       return AppLocalizations.of(context)!.alertE;
                     }
                     return null;
@@ -86,16 +97,28 @@ class _AxisConfigState extends State<AxisConfigWidget>{
               Flexible(
                 child: MyTextField(
                   label: '${widget.axisLabel}${AppLocalizations.of(context)!.homeH}',
-                  hintText: '${widget.axisLabel}${AppLocalizations.of(context)!.homeH}',
-                  initialValue: widget.maxVal.toString(),
-                  onChanged: (value) => widget.onMaxValChanged(double.tryParse(value) ?? 0.0),
-                  keyboardType: TextInputType.number,
+                  hintText: 'e.g. 10',
+                  onChanged: (value) {
+                    final parsed = double.tryParse(value);
+                    if (parsed != null) {
+                      setState(() {
+                        _maxMax = parsed;
+                      });
+                      widget.onMaxValChanged(parsed);
+                    }
+                  },
+                  keyboardType: const TextInputType.numberWithOptions(signed: true),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return AppLocalizations.of(context)!.alertA;
+                      widget.onMaxValChanged(0.0);
+                      return null;
                     }
-                    if (double.tryParse(value) == null) {
+                    final parsed = double.tryParse(value);
+                    if (double.tryParse(value!) == null) {
                       return AppLocalizations.of(context)!.alertE;
+                    }
+                    if (_minMin != null && parsed! <= _minMin!) {
+                      return AppLocalizations.of(context)!.alertF;
                     }
                     return null;
                   },

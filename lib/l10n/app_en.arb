@@ -22,6 +22,7 @@
   "alertC": "Incomplete entry",
   "alertD": "CSV-data not loaded",
   "alertE": "enter a value",
+  "alertF": "greater than min",
   "topA": "No saved projects",
   "topB": "Are you sure you want to delete?",
   "topC": "This action cannot be undone",

@@ -50,6 +50,7 @@ class _MyTextFieldState extends State<MyTextField> {
         decoration: InputDecoration(
           labelText: widget.label,
           hintText: widget.hintText,
+          hintStyle: const TextStyle(color: Colors.lightBlue),
           border: const OutlineInputBorder(),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           errorStyle: const TextStyle(
