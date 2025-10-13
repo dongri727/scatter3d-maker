@@ -7,7 +7,7 @@ import '../widget/axis_config_widget.dart';
 import '../widget/text_field.dart';
 import 'home_page_model.dart';
 import '../application/import_csv.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});

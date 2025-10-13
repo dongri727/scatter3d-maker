@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'hint_csv_config.dart';
 import 'hint_project_config.dart';
 import 'hint_scatter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HintTab extends StatelessWidget {
   const HintTab ({super.key});

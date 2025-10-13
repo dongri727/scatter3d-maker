@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:scatter3d_maker/widget/snackbar.dart';
 import 'package:csv/csv.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 
 class CsvImporter {
   Future<({List<Map<String, dynamic>> parsedData, String? filePath})> importCSV(BuildContext context) async {

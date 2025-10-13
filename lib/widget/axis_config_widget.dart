@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import 'text_field.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class AxisConfigWidget extends StatefulWidget{
   const AxisConfigWidget({

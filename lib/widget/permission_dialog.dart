@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../l10n/app_localizations.dart';
 class PermissionRequester {
   /// 指定したパーミッションの状態を確認し、未許可ならダイアログを表示する
   static Future<bool> requestPermission({

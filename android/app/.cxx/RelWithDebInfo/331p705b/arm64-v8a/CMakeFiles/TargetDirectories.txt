@@ -1,0 +1,2 @@
+/Users/laporte/StudioProjects/scatter3d-maker/android/app/.cxx/RelWithDebInfo/331p705b/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/laporte/StudioProjects/scatter3d-maker/android/app/.cxx/RelWithDebInfo/331p705b/arm64-v8a/CMakeFiles/rebuild_cache.dir

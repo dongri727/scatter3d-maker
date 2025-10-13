@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:scatter3d_maker/page/info_page.dart';
 import '../constants/language_button.dart';
+import '../l10n/app_localizations.dart';
 import '../page/home_page.dart';
 import '../page/preview_page.dart';
 import 'package:provider/provider.dart';
 import 'package:scatter3d_maker/providers/project_provider.dart';
 import 'package:scatter3d_maker/widget/dialog.dart';
 import 'hint/tab_top.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class TopPage extends StatefulWidget { 
   const TopPage({super.key});
